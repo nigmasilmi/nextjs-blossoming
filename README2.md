@@ -229,3 +229,37 @@ export async function getStaticPaths() {
 ```
 export async function getServerSideProps(){...}
 ```
+
+- suppose an use case in which we need to render a user-profile page, but we need to identify which user is making the request via cookies
+
+- the page cannot be dynamic because with knowing the userid and using it like this [userId].js, only with knowing the id of the user anyone could enter to that reserved page (also there is much more about authentication further ahead in the course)
+
+- then coming back to the idea of cookies, we need to have access to the request, that is something that can be done in getServerSideProps()
+
+- the implementation details for getServerSideProps() is very similar to getStaticProps()
+  - must return an object
+  - the object returned must have a props property
+  - can have notFound
+  - can have fallback
+  - cannot have revalidate, because by default getServerSideProps() executes with every request
+
+### getServerSideProps context
+
+- with context we get full access to the REQUEST object and also to the RESPONSE that will be sent back
+
+### getServerSideProps in Dynamic Pages
+
+- when we used getStaticPaths and getStaticProps we needed them to prepare the possible pages that would potentially be requested by the user, that is why we needed the path generation in advance. But in this case...
+- given that getServerSideProps is executed with each render and that we can access to the server, to load a specific entity-id page we just need to access the params through the context and request the specific instance with that data. Check out [postId].js
+
+## Client-side data fetching
+
+### Some data doesn't need to be pre-rendered
+
+1. Data changing with high frequency (each minute or so)
+2. Highly user-specific data, like orders in an online shop. Also in this case we don't need to make the content available for SEO optimization.
+3. Partial data, like a dashboard
+
+- In these cases (when the data changes very frequently or there is some specific user data or a huge amount of data from which only a part is used), it is better to render the data in the client-side with a classic React approach
+
+### Implementing Client-side data fetching
