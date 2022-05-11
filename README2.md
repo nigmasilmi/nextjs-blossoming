@@ -3,25 +3,229 @@
 Some notes to ground the learning and for future reference.
 🤓 Welcome!
 
-## Implementing routing with a demo project
+## Pre-rendering and Data Fetching
 
-### A note about styling in NextJS
+- Pre render pages in server side
+- helps us with running code on the server side
+- How to blend server side with client side code
 
-- The aproach .module.css is valid in NextJS
-- When styling Links, there is the need to use an explicit internal anchor tag to apply the styles in this anchor tag
-- Check the button component implementation and the placing of the props.children
-- Take into account tha this approach does not require the addition of the href prop in the anchor tag, just use the href of the Link
+### The problem with traditional React Apps
 
-### Photo credits
+- The initial content of a page is the content without any data fetched from some backend
+- There is a delay for the user to see the data
+- The SEO won't work as expected for the fact that the initial content does not have the full content of it
 
-#### Programming event photo
+## How NextJS Prepares and Pre-renders a page
 
-Photo by <a href="https://unsplash.com/@juanjodev02?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Juanjo Jaramillo</a> on <a href="https://unsplash.com/s/photos/programming?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+1. Request to visit the page
+2. NextJS returns a pre-rendered page
+3. The pre-rendering includes all the data that may be needed
+4. The pre-rendered code is then taken over by React which "hydrates" the content once loaded
 
-#### Networking for introverts photo
+- the pre-rendering only affects the first load
 
-Photo by <a href="https://unsplash.com/@wocintechchat?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Christina @ wocintechchat.com</a> on <a href="https://unsplash.com/s/photos/networking?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+## Forms of Pre-rendering
 
-#### Networking for extroverts event photo
+- Static Generation
+- Server-side Rendering
 
-Photo by <a href="https://unsplash.com/@jakobdalbjorn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jakob Dalbjörn</a> on <a href="https://unsplash.com/s/photos/networking?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+## Static Generation
+
+- Is tipically recommendend (depends on the use case)
+- Pre-generated a page with data on the server side <strong>during build time</strong> before deploying
+- Pages are prepared ahead to time and can be cached by the server /CDN serving the app
+
+### How to instruct the Static Generation
+
+- From the <strong>pages components</strong>
+
+```
+export async function getStaticProps(context){...}
+```
+
+- That function should contain only code that normally would run on server-side
+- The code of that function won't be bundled on the client side, for example if we use credentials in that code, those wont't be visible by the client
+- NextJS is watching for getStaticProps, and if it finds it in our code, executes it on our behalf
+- It is executed before the component function
+
+### getStaticProps implementation details
+
+- Must always return an object
+- The object returned must contain the <strong>props</strong> property, which value must be an object and the rest is up to our implementation.
+
+Example:
+
+```
+export async function getStaticProps() {
+  return {
+    props: {
+      products: [
+        { id: "p1", name: "Forerunner 245" },
+        { id: "p2", name: "Fénix" },
+      ],
+    },
+  };
+}
+
+```
+
+### Running Server-side Code & Using The File System
+
+- With this approach we can interact with Node and the file system, because we are able to write code that will be executed on the server-side
+- The server-side code must be written in getStaticProps
+- The imports used inside getStaticProps won't be bundled into the client side
+- process.cwd() returns the current working directory of the file when is executed and treats all the files as the where in root, so it is the overall starting folder
+
+### Behind the Scenes build
+
+- When we execute the build script, NextJS shows informatiion about which pages were generated with static content and which with getStaticProps
+- The build bundle can be found in /.next/server/pages, and in there we can see the static HTML generated
+- If we want to view those static generated html files, we run npm start
+
+### Utilizing Incremental Static Generation
+
+- Generating a code via build is good for fairly static pages, but what if the data changes frequently (like new products added each day to the Data base)
+
+- solution 1: Pre build the page but also use useEffect to fetch data
+- solution 2: getStaticProps executes also in Incremental Static Generation on every request at most every X seconds
+- to unlock it, in the object returned after the props add revalidate property with a value of number of seconds
+
+Example:
+
+```
+return {
+    props: {
+      products: data.products,
+    },
+    revalidate: 120,
+  };
+```
+
+### getStaticProps configuration options
+
+[Know from the source](https://nextjs.org/docs/api-reference/data-fetching/get-static-props)<br />
+<br />
+The getStaticProps function should return an object containing either props, redirect, or notFound followed by an optional revalidate property.
+
+```
+  if (!data) {
+    return {
+      redirect: {
+        destination: "/no-data",
+      },
+    };
+  }
+
+  if (data.products.length === 0) {
+    return { notFound: true };
+  }
+```
+
+### Working with Dynamic Parameters
+
+- through the context argument of getStaticProps we can access to the parameters in the url
+- we can prepare the data in advance for a specific page if we make use of getStaticProps in it
+
+```
+export async function getStaticProps(context) {
+ ...
+
+  const { params } = context;
+  const productId = params.<the-name-of-the-query-key>;
+  const productContent = data.find((product) => product.id === productId);
+  return {
+    props: {
+      product: productContent,
+    },
+  };
+}
+```
+
+- But with the previous snapshot we have a problem and is that getStaticPaths is required for dynamic SSG (Static Site Generation) pages, so...
+
+### Using getStaticPaths
+
+- For dynamic pages with getStaticProps NexJS DOES NOT pre generate the page because there are multiple options to render de same page, e.g: products/forerunner245, products/forerunner55, etc
+
+- We have to give Next the instances that can be generated, because multiple concrete [parameter] are pre-generated
+
+- That is why we need to implement getStaticPaths
+
+```
+export async function getStaticPaths(){...}
+```
+
+- getStaticPaths must return an object with the property `paths` which value is an array of objects, those objects are the possible routes that we expect to be requested by the users
+
+```
+
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { productId: "p1" } },
+      { params: { productId: "p2" } },
+      { params: { productId: "p3" } },
+    ],
+    fallback: false,
+  };
+}
+```
+
+- imagine a use case with 1000 or more posible paths, for that we use fallback: true, that takes into account another route values and takes them as valid ones, but does not pre generate those pages' data, instead they are generated in time.
+
+- also keep in mind that if one of thos not explicit routes are visited directly (via link or typed) would be an error because the content is not already loaded. For that <strong>we have to prepare our component with a validation</strong> and a fallback content. When the data is available, the component will re-render automatically.
+  Check the [productId].js for clarification
+
+- an alternative is to use `fallback: 'blocking'` and we don't need to add a component fallback because Next will wait untill the page is fully pre generate in the server before serving it. It make take longer for the user.
+
+- the final solution for this introduction project is to map all the product id's and pass them as objects, and setting the fallback to false.
+
+### Fallback pages and not found pages
+
+- with fallback to true we are telling Next that in spite of the ids settings, or predefining, we are expecting the posibility that there is another id or specific page that we are not considering, and in this case, we need a fallback page. Because even though we are setting a loading snippet, there is the case in which the product the user requests does not exist.
+
+- so we set notFound to true in the returned object
+
+```
+export async function getStaticProps(context) {
+  const data = await getData();
+  const { params } = context;
+  const productId = params.productId;
+  const productContent = data.products.find(
+    (product) => product.id === productId
+  );
+
+if(!productContent){
+    return {notFound: true}
+}
+
+  return {
+    props: {
+      product: productContent,
+    },
+  };
+}
+
+export async function getStaticPaths() {
+  const data = await getData();
+  const ids = data.products.map((product) => product.id);
+  const pathsWithParams = ids.map((id) => ({ params: { productId: id } }));
+
+  return {
+    paths: pathsWithParams,
+    fallback: true,
+  };
+}
+```
+
+## Server-side Rendering SSR
+
+- sometimes we need to pre-render for every request or we need access to the request object (e.g. for cookies)
+- NextJS allows to run "real" server-side code as well
+- that code is implemented inside getServerSideProps
+
+### getServerSideProps
+
+```
+export async function getServerSideProps(){...}
+```
