@@ -1,5 +1,6 @@
+import ErrorAlert from "../components/ui/error-alert";
 const FourOFour = () => {
-  return <div>FourOFour - Page not found :-/</div>;
+  return <ErrorAlert>FourOFour - Page not found :-/</ErrorAlert>;
 };
 
 export default FourOFour;
