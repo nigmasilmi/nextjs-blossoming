@@ -298,3 +298,20 @@ What will show in the page source
     fetch(url).then((res) => res.json())
   );
 ```
+
+## Combining Pre-Fetching with Client-Side Fetching
+
+- Particular approach to be implemented: Static Generation + Revalidation
+
+1. Fetch and transform the data in getStaticProps()
+2. Return the object that getStaticProps() must return
+3. Include in the object of 2. the key "revalidate" with a number of seconds
+4. Remember to return the overall promise from the fetch to the end
+5. Make the initial state as the data returned by the fetch function
+6. Because of the revalidate flag, we need to keep the useEffect (and the fetching with SWR if using it) checking for new data to come
+7. Keep in mind that if the data changes after the first render, the page source will not reflect it, but the UI will
+
+### To check the production bundle with Static Generation
+
+1. run build
+2. run start

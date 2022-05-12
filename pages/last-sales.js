@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 
-const LastSalesPage = () => {
-  const [sales, setSales] = useState();
+const LastSalesPage = (props) => {
+  const [sales, setSales] = useState(props.sales);
   // const [isLoading, setIsLoading] = useState(false);
   const salesUrl = process.env.NEXT_PUBLIC_GET_SALES;
   const { data, error } = useSWR(salesUrl, (url) =>
@@ -43,7 +43,7 @@ const LastSalesPage = () => {
     return <p>Failed to load</p>;
   }
 
-  if (!data || !sales) {
+  if (!data && !sales) {
     return <p>Loading...</p>;
   }
 
@@ -59,3 +59,21 @@ const LastSalesPage = () => {
 };
 
 export default LastSalesPage;
+
+export async function getStaticProps() {
+  const salesUrl = process.env.NEXT_PUBLIC_GET_SALES;
+
+  return fetch(salesUrl)
+    .then((response) => response.json())
+    .then((data) => {
+      const transformedData = [];
+      for (const key in data) {
+        transformedData.push({
+          id: key,
+          username: data[key].username,
+          volume: data[key].volume,
+        });
+      }
+      return { props: { sales: transformedData }, revalidate: 10 };
+    });
+}
