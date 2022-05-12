@@ -263,3 +263,38 @@ export async function getServerSideProps(){...}
 - In these cases (when the data changes very frequently or there is some specific user data or a huge amount of data from which only a part is used), it is better to render the data in the client-side with a classic React approach
 
 ### Implementing Client-side data fetching
+
+Remember this, because it's important:
+
+- the useEffect function will execute only when the component is evaluated and fully rendered, but in top of that, we are in a Next environment, so...
+- the component is pre-rendered by default even if we don't use getServerSideProps()
+- then when we use a fallback return to wait for the component to be evaluated and the useEffect() kicks in, is that fallback return what will show in the page source code, even though the appropiate content is shown in the view
+
+Example for a fallback return:
+
+```
+  if (!sales) {
+    return <p>no data yet</p>;
+  }
+```
+
+What will show in the page source
+
+```
+...
+ <body><div id="__next"><p>no data yet</p></div>
+...
+```
+
+### useSWR (Stale While Revalidate) Next Hook
+
+- It is an alternative to the useEffect approach
+- Must be installed as a package with npm i swr
+- import useSWR from "swr";
+- it is executed passing the url to fetch and optionally a fetcher (by default it uses the fetch API), and its execution will be triggered when the component is rendered the first time
+
+```
+  const { data, error } = useSWR(salesUrl, (url) =>
+    fetch(url).then((res) => res.json())
+  );
+```
