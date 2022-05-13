@@ -3,25 +3,27 @@
 Some notes to ground the learning and for future reference.
 🤓 Welcome!
 
-## Implementing routing with a demo project
+# Project optimization
 
-### A note about styling in NextJS
+## The need for a head metadata
 
-- The aproach .module.css is valid in NextJS
-- When styling Links, there is the need to use an explicit internal anchor tag to apply the styles in this anchor tag
-- Check the button component implementation and the placing of the props.children
-- Take into account tha this approach does not require the addition of the href prop in the anchor tag, just use the href of the Link
+- By default NextJS adds a pretty basic metadata, as our clients may certainly need, the use of scripts for SEO and other functionalities will be needed, so how can we add such information?
 
-### Photo credits
+### Configuring the head content
 
-#### Programming event photo
+- Use the special Head component
 
-Photo by <a href="https://unsplash.com/@juanjodev02?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Juanjo Jaramillo</a> on <a href="https://unsplash.com/s/photos/programming?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+```
+import Head from 'next/head'
+```
 
-#### Networking for introverts photo
+- Can be added any component
 
-Photo by <a href="https://unsplash.com/@wocintechchat?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Christina @ wocintechchat.com</a> on <a href="https://unsplash.com/s/photos/networking?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+### Adding dynamic head content
 
-#### Networking for extroverts event photo
+- We can use all the pieces of information that are available inside a component to construct the data inside meta tags or title tags
+- Keep in mind that the content of those tags will be available in the code of the fully rendered page but also in the server response
+- There are some edge cases where that content will not be visible in the server response, like for example in the filtered events, because if we place that head only in one of the options (the happy path) the other paths won't receive that configuration.
+- The above notes brings the necessity of the logic reuse
 
-Photo by <a href="https://unsplash.com/@jakobdalbjorn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jakob Dalbjörn</a> on <a href="https://unsplash.com/s/photos/networking?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+### Reusing logic inside a component
