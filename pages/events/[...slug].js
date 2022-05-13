@@ -1,55 +1,92 @@
+import { Fragment, useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Fragment } from "react";
+import useSWR from "swr";
+
 import Button from "../../components/ui/button";
 import ResultsTitle from "../../components/events/results-title";
 import EventList from "../../components/events/event-list";
 import ErrorAlert from "../../components/ui/error-alert";
-import { getFilteredEvents } from "../../helpers/api-utils";
 
 const FilteredEventsPage = (props) => {
+  const getEventsUrl = process.env.NEXT_PUBLIC_GET_EVENTS;
+
+  const [loadedEvents, setLoadedEvents] = useState();
   const router = useRouter();
-  // const filterData = router.query.slug;
-  // because we have access to the url segments only after the component is rendered for the first time
-  // if (!filterData) {
-  //   return <p className="center">Loading...</p>;
-  // }
-  // validate if the array comes with more than 2 values (simple validation)
 
-  // const filteredYear = filterData[0];
-  // const filteredMonth = filterData[1];
+  const filterData = router.query.slug;
 
-  // const numYear = +filteredYear;
-  // const numMonth = +filteredMonth;
-  if (props.hasError) {
+  const { data, error } = useSWR(getEventsUrl, (url) =>
+    fetch(url).then((res) => res.json())
+  );
+
+  useEffect(() => {
+    if (data) {
+      const events = [];
+
+      for (const key in data) {
+        events.push({
+          id: key,
+          ...data[key],
+        });
+      }
+
+      setLoadedEvents(events);
+    }
+  }, [data]);
+
+  if (!loadedEvents) {
+    return <p className="center">Loading...</p>;
+  }
+
+  const filteredYear = filterData[0];
+  const filteredMonth = filterData[1];
+
+  const numYear = +filteredYear;
+  const numMonth = +filteredMonth;
+
+  if (
+    isNaN(numYear) ||
+    isNaN(numMonth) ||
+    numYear > 2030 ||
+    numYear < 2021 ||
+    numMonth < 1 ||
+    numMonth > 12 ||
+    error
+  ) {
     return (
       <Fragment>
         <ErrorAlert>
-          <p className="center">Invalid filter. Please adjust the values.</p>
+          <p>Invalid filter. Try searching by different criteria</p>
         </ErrorAlert>
         <div className="center">
-          <Button link="/">Show All Events</Button>
+          <Button link="/events">Show All Events</Button>
         </div>
       </Fragment>
     );
   }
 
-  const filteredEvents = props.events;
+  const filteredEvents = loadedEvents.filter((event) => {
+    const eventDate = new Date(event.date);
+    return (
+      eventDate.getFullYear() === numYear &&
+      eventDate.getMonth() === numMonth - 1
+    );
+  });
 
   if (!filteredEvents || filteredEvents.length === 0) {
     return (
       <Fragment>
         <ErrorAlert>
-          <p className="center">
-            No events found for {props.date.year}/{props.date.month}
-          </p>
+          <p>No events found for the chosen filter!</p>
         </ErrorAlert>
         <div className="center">
-          <Button link="/">Show All Events</Button>
+          <Button link="/events">Show All Events</Button>
         </div>
       </Fragment>
     );
   }
-  const date = new Date(props.date.year, props.date.month - 1);
+
+  const date = new Date(numYear, numMonth - 1);
 
   return (
     <Fragment>
@@ -58,43 +95,5 @@ const FilteredEventsPage = (props) => {
     </Fragment>
   );
 };
-
-export async function getServerSideProps(context) {
-  const { params } = context;
-  const filteredData = params.slug;
-  const filteredYear = filteredData[0];
-  const filteredMonth = filteredData[1];
-  const numYear = +filteredYear;
-  const numMonth = +filteredMonth;
-
-  if (
-    isNaN(numYear) ||
-    isNaN(numMonth) ||
-    numYear > 2023 ||
-    numYear < 2022 ||
-    numMonth < 1 ||
-    numMonth > 12
-  ) {
-    return {
-      props: {
-        hasError: true,
-      },
-      // notFound: true,
-      // redirect:{
-      //   destination:'/error'
-      // }
-    };
-  }
-  const filteredEvents = await getFilteredEvents({
-    year: numYear,
-    month: numMonth,
-  });
-  return {
-    props: {
-      events: filteredEvents,
-      date: { year: numYear, month: numMonth },
-    },
-  };
-}
 
 export default FilteredEventsPage;
