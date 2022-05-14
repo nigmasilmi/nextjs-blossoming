@@ -1,22 +1,22 @@
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Dev notes on learning NextJS
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Some notes to ground the learning and for future reference.
+🤓 Welcome!
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## All functionalities Build-up Project
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Checkout the different commits to view the implementation progress
 
-## Learn More
+#### Photo credits
 
-To learn more about Next.js, take a look at the following resources:
+##### Programming event photo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Photo by <a href="https://unsplash.com/@juanjodev02?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Juanjo Jaramillo</a> on <a href="https://unsplash.com/s/photos/programming?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+##### Networking for introverts photo
 
-## Deploy on Vercel
+Photo by <a href="https://unsplash.com/@wocintechchat?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Christina @ wocintechchat.com</a> on <a href="https://unsplash.com/s/photos/networking?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+##### Networking for extroverts event photo
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Photo by <a href="https://unsplash.com/@jakobdalbjorn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jakob Dalbjörn</a> on <a href="https://unsplash.com/s/photos/networking?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
