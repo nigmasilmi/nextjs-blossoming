@@ -1,12 +1,16 @@
-import Link from "next/link";
-import { getFeaturedEvents } from "../helpers/api-utils";
+import Head from "next/head";
 import EventList from "../components/events/event-list";
+import { getFeaturedEvents } from "../helpers/api-utils";
 import NewsletterRegistration from "../components/input/newsletter-registration";
 
 const HomePage = (props) => {
   return (
     <div>
       <NewsletterRegistration />
+      <Head>
+        <title>Events</title>
+        <meta name="description" content="The best dummy events ever" />
+      </Head>
       <EventList items={props.events} />
     </div>
   );
