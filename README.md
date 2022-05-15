@@ -3,6 +3,12 @@
 Some notes to ground the learning and for future reference.
 🤓 Welcome!
 
+(latest notes on top)
+
+# Implementing API routes
+
+1. pages/api structure the routes following one of these patters:
+
 # Project optimization
 
 ## The need for a head metadata
