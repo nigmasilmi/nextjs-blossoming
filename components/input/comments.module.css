@@ -15,6 +15,10 @@
   cursor: pointer;
 }
 
+.comments form button {
+  background-color: white;
+}
+
 .comments button:hover,
 .comments button:active {
   background-color: #dcfff9;
