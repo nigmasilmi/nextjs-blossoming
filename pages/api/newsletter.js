@@ -8,7 +8,9 @@ function handler(req, res) {
     }
     console.log(userEmail);
     res.status(201).json({ message: "success!" });
+  } else {
+    res.status(200).json({ message: "hola working" });
   }
-
-  res.status(200).json({ message: "hola working" });
 }
+
+export default handler;
