@@ -24,6 +24,14 @@ Also checkout the events-app branch to view the first application built in this 
 
 [Go](https://nextjs.org/docs/api-reference/next/link)
 
+## NextJS Image
+
+[Go](https://nextjs.org/docs/api-reference/next/image)
+
+## react-markdown
+
+[Go](https://www.npmjs.com/package/react-markdown)
+
 ## The (Date) Time element
 
 [Go](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time)
