@@ -5,9 +5,32 @@ Some notes to ground the learning and for future reference.
 
 (latest notes on top)
 
+# Integrate Context in a NextJS application
+
+## Context implementation refresher
+
+1. Create a context object with the help of createContext imported from 'react'
+2. Pass the main structure as an argument to createContext (definition and autocompletion)
+3. Export default 1.
+4. Create a React component that will manage all the context-related state, that component must be the explicit provider of the context and wrap its props.children
+5. Export 4.
+6. In 4 define the states and methods that manage that state.
+7. In 4 consolidate 6 into a single object to pass as props that its children can receive and use.
+8. Wrap the components at the top most needed level, in order that all its stakeholders have access to the context.
+9. In the place where the context provider is used, there whe can use useContext to access all properties of the context
+
+10. There is a place where we use the context and there is a place where we set the context, in both cases we use 9, the difference is that where we use the context, we are interested in the properties and in the setter phase we use the functions that manipulate the state
+
+## Fetch() handling errors
+
+<q><i>The Promise returned from fetch() won’t reject on HTTP error status even if the response is an HTTP 404 or 500. Instead, it will resolve normally (with ok status set to false), and it will only reject on network failure or if anything prevented the request from completing.</i></q><br />
+[Check this out](https://towardsdev.com/how-to-handle-404-500-and-more-using-fetch-api-in-javascript-f4e301925a51)
+
 # Implementing API routes
 
-1. pages/api structure the routes following one of these patters:
+In pages/api structure the routes follow the same structure/pattern than the normal /pages folder.
+
+- The code inside the handler functions are NodeJS code, that handles requests and responses. Good'al NodeJS code.
 
 # Project optimization
 

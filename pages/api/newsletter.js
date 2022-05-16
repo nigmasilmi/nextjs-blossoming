@@ -13,7 +13,6 @@ async function handler(req, res) {
     try {
       client = await connectDatabase();
     } catch (err) {
-      client.close();
       res.status(500).json({ message: err.message });
       return;
     }
