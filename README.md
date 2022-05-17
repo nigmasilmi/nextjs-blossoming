@@ -31,7 +31,12 @@ Also checkout the events-app branch to view the first application built in this 
 
 ## react-markdown
 
-[Go](https://www.npmjs.com/package/react-markdown)
+[npm package](https://www.npmjs.com/package/react-markdown)
+[Readme](https://github.com/remarkjs/react-markdown#readme)
+
+## react-syntax-highlighter
+
+[npm package](https://www.npmjs.com/package/react-syntax-highlighter)
 
 ## Parse a Markdown Document With gray-matter
 
