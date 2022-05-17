@@ -6,8 +6,9 @@ With the help of [NextJS & React - The Complete guide by Maximilian Schwarzmüll
 
 Some notes to ground the learning and for future reference.
 🤓 Welcome!
-Checkout the different branches to view specific NextJS features and their demo
-Also checkout the events-app branch to view the first application built in this course
+
+- Checkout the different branches to view specific NextJS features and their demo
+- Also checkout the events-app branch to view the first application built in this course
 
 # NextJS time to blossom
 
@@ -32,6 +33,14 @@ Also checkout the events-app branch to view the first application built in this 
 
 [Go](https://www.npmjs.com/package/react-markdown)
 
+## Parse a Markdown Document With gray-matter
+
+[Go](https://egghead.io/lessons/next-js-parse-a-markdown-document-with-gray-matter)
+
+## gray-matter npm
+
+[Go](https://www.npmjs.com/package/gray-matter)
+
 ## The (Date) Time element
 
 [Go](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time)
@@ -40,6 +49,6 @@ Also checkout the events-app branch to view the first application built in this 
 
 [Go](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date)
 
-# Photo Credits
+### Photo Credits
 
-Photo by <a href="https://unsplash.com/@cdd20?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">愚木混株 cdd20</a> on <a href="http://localhost:3000/collections/1659999/silhouette-%7C-anonymous-%7C-cutout?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+Avatar Photo by <a href="https://unsplash.com/@cdd20?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">愚木混株 cdd20</a> on <a href="http://localhost:3000/collections/1659999/silhouette-%7C-anonymous-%7C-cutout?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
