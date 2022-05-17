@@ -21,6 +21,18 @@ Some notes to ground the learning and for future reference.
 Checkout the different branches to view specific NextJS features and their demo
 Also checkout the events-app branch to view the first application built in this course
 
+## Using React Portals in NextJS
+
+- use specific case: port a notification outside of the deep structure.
+- why? to improve accessibility and semantics
+
+### React Portal refresher
+
+- in the component that must be rendered, import ReactDOM
+- wrap the returned JSX with ReactDOM.createPortal()
+- as second argument to createPortal, pass a selector that targets the element in which this component must be ported to
+- this works even if the component is used in another component tree
+
 ## Link reference
 
 [Go](https://nextjs.org/docs/api-reference/next/link)
