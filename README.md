@@ -98,3 +98,8 @@ const nextConfig = (phase) => {
 - in a server, the folder can be placed (install dependencies) and the command next start will lift up the application
 - also make sure to port 3000 to 80 (the outside world), but the specific steps will depend on the hosting provider
 - the same as before (without installing because the dependencies would be installed already ) can be done in the dev machine (note that the production build runs faster than the dev one)
+
+### Using Vercel
+
+- Sign up or sign in with GitHub, BitBucket or GitLab
+- new project > import GitHub repository (select and import)

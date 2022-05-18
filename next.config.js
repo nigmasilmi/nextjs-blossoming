@@ -9,7 +9,7 @@ const nextConfig = (phase) => {
         mongodb_username: "nextUser",
         mongodb_password: "5VG9XzCafvW8QdXt",
         mongodb_clustername: "cluster0",
-        mongodb_database: "nextjs-blog-dev",
+        mongodb_database: "nextjs-blog",
       },
     };
   }
