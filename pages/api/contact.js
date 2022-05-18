@@ -1,5 +1,7 @@
 import { MongoClient } from "mongodb";
 
+const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.mwgct.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
+
 async function handler(req, res) {
   if (req.method === "POST") {
     const { email, name, message } = req.body;
@@ -19,9 +21,7 @@ async function handler(req, res) {
     const newMessage = { email, name, message };
     let client;
     try {
-      client = await MongoClient.connect(
-        `mongodb+srv://${process.env.NEXT_PUBLIC_MONGO_USER}:${process.env.NEXT_PUBLIC_MONGO_PASS}@cluster0.mwgct.mongodb.net/nextjs-blog?retryWrites=true&w=majority`
-      );
+      client = await MongoClient.connect(connectionString);
     } catch (err) {
       console.log(err);
       res.status(500).json({ message: err.message });
