@@ -37,3 +37,23 @@ Some notes to ground the learning and for future reference.
 - Servers don't save information about authenticated clients, the clients instead should get information that allows them to prove their authentication: all this can be done with JWT
 
 ### JWT are generated with 3 main pieces
+
+- Issuer Data (automatically added by the server)
+- Custom Data (e.g user data)
+- Secret Signing Key
+
+### A third-party package
+
+- combines the data and generates a JSON Web Token
+- this JWT is not encrypted, can be unpackaged easily and read by anyone but the key won't be included
+- Only the signing server is able to verify an incoming token
+
+# Authentication with NextAuth.js
+
+[Go](https://next-auth.js.org/)
+
+- has client and server-side capabilities
+
+## Adding user sign-up route
+
+- With a simple handler for doing so, hashing the password with bcryptjs
