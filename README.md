@@ -51,9 +51,20 @@ Some notes to ground the learning and for future reference.
 # Authentication with NextAuth.js
 
 [Go](https://next-auth.js.org/)
+[Upgrade Guide (V4)](https://next-auth.js.org/getting-started/upgrade-v4)
 
 - has client and server-side capabilities
 
 ## Adding user sign-up route
 
 - With a simple handler for doing so, hashing the password with bcryptjs
+
+## Implementing NextAuth for authentication
+
+- Logging the user in, getting tokens, permissions, ui reactions, etc
+- To handle the routes related with NextAuth, we need to give the file a special name, a catch-all `[...nextauth].js`
+- NextAuth.js exposes a [REST API](https://next-auth.js.org/getting-started/rest-api) that is used by the NextAuth.js client.
+
+- in the catch-all file, `import NextAuth from "next-auth";` and export defualt NextAuth but executed...why? because by executing it, the nextAuth returns a handler function
+- in the exported execution, we pass a configuration object
+- set the appropiate NextAuth logic in the frontend

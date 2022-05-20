@@ -41,7 +41,7 @@ function AuthForm() {
         const response = await createUser(enteredEmail, enteredPassword);
         console.log(response);
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     }
   }
